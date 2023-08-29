@@ -1,5 +1,5 @@
-package br.com.alura.screenmatch.main;
+package br.com.alura.screenmatch.modelos;
 
-public record TituloOmdb(String tile, int year, String runtime) {
+public record TituloOmdb(String title, int year, String runtime) {
 
 }
