@@ -5,6 +5,7 @@ public class Titulo implements Comparable<Titulo>{
     private String nome;
     private int anoDeLancamento;
     private int duracaoEmMinutos;
+    private double duracaoEmHoras;
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
     private int totalDeAvaliacoes;
@@ -17,8 +18,14 @@ public class Titulo implements Comparable<Titulo>{
     public Titulo(TituloOmdb tituloOmdb) {
         this.nome = tituloOmdb.title();
         this.anoDeLancamento = tituloOmdb.year();
-        this.duracaoEmMinutos = Integer.valueOf(tituloOmdb.runtime().substring(0,3));
-
+        if(tituloOmdb.runtime().charAt(2) == ' ')
+            this.duracaoEmMinutos = Integer.valueOf(tituloOmdb.runtime().substring(0,2));
+        else
+            this.duracaoEmMinutos = Integer.valueOf(tituloOmdb.runtime().substring(0,3));
+        if(tituloOmdb.runtime().charAt(2) == ' ')
+            this.duracaoEmHoras = Double.valueOf(tituloOmdb.runtime().substring(0,2)) / 60;
+        else
+            this.duracaoEmHoras = Double.valueOf(tituloOmdb.runtime().substring(0,3)) / 60;
     }
 
     public void exibeFichaTecnica() {
@@ -79,6 +86,9 @@ public class Titulo implements Comparable<Titulo>{
         this.duracaoEmMinutos = duracaoEmMinutos;
 
     }
+    public double getDuracaoEmHoras() {
+        return duracaoEmHoras;
+    }
 
 
     public int getTotalDeAvaliacoes() {
@@ -90,7 +100,13 @@ public class Titulo implements Comparable<Titulo>{
         return getNome().compareTo(outroTitulo.getNome());
     }
 
+
+
     public String toString() {
-        return "Título: " + getNome() + " , " + getAnoDeLancamento() + ", " + getDuracaoEmMinutos() + " min";
+
+        if(getDuracaoEmMinutos() < 61)
+            return "(Título: " + getNome() + " , " + getAnoDeLancamento() + ", " + getDuracaoEmMinutos() + " min)";
+
+        return "(Título: " + getNome() + " , " + getAnoDeLancamento() + ", " + getDuracaoEmHoras() + " horas)";
     }
 }
